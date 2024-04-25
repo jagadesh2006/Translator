@@ -10,6 +10,22 @@ bot_token = "6223458591:AAGc_UAxkJFLboY_NW72nIpr0oQVd-jrV6A"
 
 app = Client("my_bot", api_hash= api_hash, api_id = api_id, bot_token = bot_token)
 translator = Translator()
+language = None
+start_text = """Hey {}!\nI am Translator Robot. Check /help for more..."""
+
+start_buttons = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton("Set Lang",callback_data = "help")
+    ]]
+)
+
+@app.on_message(filters.command("start"))
+async def start(Client,message):
+    await message.reply(
+        start_text.format(message.chat.first_name),
+        quote = True,
+        reply_markup = start_buttons
+    )
 
 @app.on_message(filters.private & filters.text)
 async def translate(Client,message):
