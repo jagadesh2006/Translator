@@ -1,4 +1,4 @@
 pyrogram
 TgCrypto
-googletrans==4.0.0-rc
+googletrans==4.0.0-rc1
 gTTS
