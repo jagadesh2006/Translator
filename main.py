@@ -1,7 +1,7 @@
 from gtts import gTTS
 from googletrans import Translator
 import pyrogram 
-from pyrogram import Client, filters
+from pyrogram import Client, filters,enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 api_id = 6212815
@@ -15,10 +15,8 @@ translator = Translator()
 async def translate(Client,message):
     tr_text = translator.translate(message.text,dest = "ja")
     await message.reply(
-        tr_text.text,
-        "Pronunciation": tr_text.pronunciation,
-        quote = "True"
+        "`"+tr_text.text+"`"+"\nPronunciation:"+ tr_text.pronunciation,
+        quote = True,
+        parse_mode = enums.ParseMode.MARKDOWN
      )
 app.run()
-            
-    
