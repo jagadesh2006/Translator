@@ -15,10 +15,23 @@ start_text = """Hey {}!\nI am Translator Robot. Check /help for more..."""
 
 start_buttons = InlineKeyboardMarkup(
     [[
-        InlineKeyboardButton("Set Lang",callback_data = "help")
+        InlineKeyboardButton("Set Lang",callback_data = "set_lang")
     ]]
 )
 
+lang_buttons = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton("Tamil",callback_data = "ta"),
+        InlineKeyboardButton("Japanese",callback_data ="ja)
+    ]]
+)
+
+audio_buttons = InlineKeyboardMarkup(
+    [[
+        InlineKeyboardButton("Audio",callback_data = "Audio"),
+        InlineKeyboardButton("Translated Audio",callback_data ="Audio")
+    ]]
+)
 @app.on_message(filters.command("start"))
 async def start(Client,message):
     await message.reply(
@@ -28,11 +41,19 @@ async def start(Client,message):
     )
 
 @app.on_message(filters.private & filters.text)
-async def translate(Client,message):
-    tr_text = translator.translate(message.text,dest = "ja")
+async def lang(Client,message):
     await message.reply(
-        "`"+tr_text.text+"`"+"\nPronunciation:"+ tr_text.pronunciation,
-        quote = True,
-        parse_mode = enums.ParseMode.MARKDOWN
-     )
+        "Choose Below Language to translate the text..",
+        reply_markup = lang_buttons
+    )
+    
+@app.on_callback_query()
+async def translate(Client,message):
+    language = message.data
+    tr_text = translator.translate(message.message.reply_to_message.text,dest = language)
+    await message.message.reply(tr_text.text +"\nPronunciation :"+ tr_text.pronunciation,
+       reply_markup = audio_buttons
+   )
+                        
+
 app.run()
