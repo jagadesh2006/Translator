@@ -306,14 +306,14 @@ async def translate(Client,message):
           tr_text = translator.translate(message.message.reply_to_message.text,dest = language)
           text = message.message.reply_to_message.text
           src = translator.detect(text).lang
-	  for lang in langs:
-		  if langs[lang] == src:
-			  src = lang.capitalize()
+          for lang in langs:
+          	if langs[lang] == src:
+          		src = lang.capitalize()
           if tr_text.pronunciation != None:
                 await message.edit_message_text("``"+tr_text.text +"``"+"\n**Pronunciation :**"+ tr_text.pronunciation+ "\nDetected Language : "+"**"+src+"**",reply_markup = audio_buttons)
           else:
                await message.edit_message_text("``"+tr_text.text +"``"+ "\nDetected Language : "+"**"+src+"**",reply_markup = audio_buttons)
      except Exception as e:
             await message.edit_message_text(f"Error : {e}",reply_markup=error_buttons)
-
+	     
 app.run()
