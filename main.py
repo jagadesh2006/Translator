@@ -4,6 +4,7 @@ from googletrans import Translator
 import pyrogram 
 from pyrogram import Client, filters,enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from list import langs
 
 api_id = 6212815
 api_hash = "54ce72519b49dc6d75d3d2b2d6a8f645"
@@ -201,7 +202,13 @@ updates_buttons = InlineKeyboardMarkup(
           InlineKeyboardButton("✖️ Close",callback_data = "close")
      ]]
 )
-    
+error_buttons = InlineKeyboardMarkup(
+     [
+     [
+     	InlineKeyboardButton("📞 Report",url = "https://t.me/Deccan_Supportz"),
+          InlineKeyboardButton("✖️ Close",callback_data = "close")
+     ]]
+)  
 
 @app.on_message(filters.command("start"))
 async def start(Client,message):
@@ -276,9 +283,12 @@ async def donate(Client,message):
         		
 @app.on_callback_query(filters.regex("tr_audio"))
 async def tr_audio(client,message):
-	tts = gTTS(tr_text.text,lang=language)
-	tts.save("tr_audio.mp3")
-	await message.message.reply_audio("tr_audio.mp3",reply_markup = donate_button)     
+     try:
+          tts = gTTS(tr_text.text,lang=language)
+          tts.save("tr_audio.mp3")
+          await message.message.reply_audio("tr_audio.mp3",reply_markup = donate_button)
+     except Exception as e:
+            await message.message.reply_text(f"Error : {e}",reply_markup=error_buttons)
 
 @app.on_callback_query(filters.regex("audio"))
 async def audio(client,message):
@@ -289,14 +299,18 @@ async def audio(client,message):
 	   
 @app.on_callback_query()
 async def translate(Client,message):
-	
-	global language
-	language = message.data
-	global tr_text
-	tr_text = translator.translate(message.message.reply_to_message.text,dest = language)
-	if tr_text.pronunciation != None:
-            await message.edit_message_text("``"+tr_text.text +"``"+"\nPronunciation :"+ tr_text.pronunciation,reply_markup = audio_buttons)
-	else:
-        	await message.edit_message_text(tr_text.text,reply_markup = audio_buttons)
+     try:
+          global language
+          language = message.data
+          global tr_text
+          tr_text = translator.translate(message.message.reply_to_message.text,dest = language)
+          text = message.message.reply_to_message.text
+          src = translator.detect(text).lang
+          if tr_text.pronunciation != None:
+                await message.edit_message_text("``"+tr_text.text +"``"+"\n**Pronunciation :**"+ tr_text.pronunciation+ "\nDetected Language : "+"**"+src+"**",reply_markup = audio_buttons)
+          else:
+               await message.edit_message_text("``"+tr_text.text +"``"+ "\nDetected Language : "+"**"+src+"**",reply_markup = audio_buttons)
+     except Exception as e:
+            await message.edit_message_text(f"Error : {e}",reply_markup=error_buttons)
 
 app.run()
