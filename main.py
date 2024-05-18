@@ -4,7 +4,7 @@ from googletrans import Translator
 import pyrogram 
 from pyrogram import Client, filters,enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from list import langs
+from lang_list import langs
 
 api_id = 6212815
 api_hash = "54ce72519b49dc6d75d3d2b2d6a8f645"
