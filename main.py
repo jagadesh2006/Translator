@@ -28,12 +28,12 @@ help_text = """
 Hey **{}!**.
 Follow these steps for 
 **Translation :**
-Send/Forward me a text to Translate.
-Choose a language from the given languages to translate
+➖️ Send/Forward me a text to Translate.
+➖️ Choose a language from the given languages to translate
 
 **🎵 Audio :**
-Choose Audio to get the speech of your text.
-Choose Translated Audio to get the speech of translated audio with translated language slang.
+➖️ Choose **Audio** to get the speech of your text.
+➖️ Choose **Translated Audio** to get the speech of translated audio with translated language slang.
 
 **✖️ Close :**
 You can close the any active message with close button.
@@ -315,5 +315,6 @@ async def translate(Client,message):
                await message.edit_message_text("``"+tr_text.text +"``"+ "\nDetected Language : "+"**"+src+"**",reply_markup = audio_buttons)
      except Exception as e:
             await message.edit_message_text(f"Error : {e}",reply_markup=error_buttons)
-	     
+            await message.edit_message_text("``"+tr_text.text +"``"+"\n**Pronunciation :**"+ tr_text.pronunciation+ "\nDetected Language : "+"**"+src+"**",reply_markup = audio_buttons)
+
 app.run()
