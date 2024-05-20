@@ -185,12 +185,6 @@ donate_button = InlineKeyboardMarkup(
 
      ]]
 )
-donate_url = InlineKeyboardMarkup(
-     [[
-          InlineKeyboardButton("💰 Donate",url = donate_link),
-          InlineKeyboardButton("✖️ Close",callback_data = "close")
-     ]]
-)
 
 updates_buttons = InlineKeyboardMarkup(
      [[
@@ -231,9 +225,7 @@ async def updates(Client,message):
      )
 @app.on_message(filters.command("donate"))
 async def updates(Client,message):
-     await message.reply(
-          donate_text,
-          reply_markup = donate_button
+     await message.reply_photo("https://telegra.ph/file/97186d48e986c5d65bb45.jpg",caption = "Scan this QR Code to Donate.",reply_markup = close_buttons
      )
 
 @app.on_message(filters.private & filters.text)
@@ -270,12 +262,13 @@ async def close(client,message):
       await message.message.delete()
 
 @app.on_callback_query(filters.regex("help"))
-async def donate(Client,message):
+async def help(Client,message):
      await message.edit_message_text(help_text.format(message.message.chat.first_name),reply_markup = help_buttons)
 
 @app.on_callback_query(filters.regex("donate"))
 async def donate(Client,message):
-     await message.message.reply_text(donate_text,reply_markup = donate_url)
+     await message.message.reply_photo("https://telegra.ph/file/97186d48e986c5d65bb45.jpg",caption = "Scan this QR Code to Donate.",reply_markup = close_buttons
+     )
      
 @app.on_callback_query(filters.regex("updates"))
 async def donate(Client,message):
