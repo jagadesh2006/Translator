@@ -5,9 +5,6 @@ import pyrogram
 from pyrogram import Client, filters,enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from lang_list import langs
-import uvicorn
-from fastapi import FastAPI, Request, Response
-from fastapi.responses import HTMLResponse, StreamingResponse
 import os
 
 api_id = 6212815
@@ -314,6 +311,4 @@ async def translate(Client,message):
             await message.edit_message_text(f"Error : {e}",reply_markup=error_buttons)
             await message.edit_message_text("``"+tr_text.text +"``"+"\n**Pronunciation :**"+ tr_text.pronunciation+ "\nDetected Language : "+"**"+src+"**",reply_markup = audio_buttons)
 
-HOST = os.getenv("HOST", "0.0.0.0")
-PORT = os.getenv("PORT", 8080)
-uvicorn.run(app, host=HOST, port=PORT)
+app.run()
