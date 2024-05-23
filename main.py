@@ -7,12 +7,12 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from lang_list import langs
 import os
 
-port = 0.0.0.0
+
 api_id = 6212815
 api_hash = "54ce72519b49dc6d75d3d2b2d6a8f645"
 bot_token = "7119488856:AAGoBMkOuIyISjVpdTV-naAK5l4I1lJ07tE"
 
-app = Client("my_bot", api_hash= api_hash, api_id = api_id, bot_token = bot_token)
+app = Client("my_bot", api_hash= api_hash, api_id = api_id, bot_token = bot_token,port = 0.0.0.0)
 translator = Translator()
 language = None
 
